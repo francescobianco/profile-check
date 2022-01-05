@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 ##
 # profile-check
@@ -28,4 +28,9 @@
 
 set -e
 
+dotfiles=".profile .bashrc"
 
+echo "$dotfiles" | tr ' ' '\n' | while read file; do
+  [ -f "$file" ] || continue
+  echo $file
+done
