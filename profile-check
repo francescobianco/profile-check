@@ -47,7 +47,7 @@ echo "Launch shell under control to capture data..."
 echo "----------------------------------------------------"
 rm -f /tmp/shell-profile-check
 echo "#!/bin/sh" > /tmp/shell-profile-check
-echo "$SHELL > /dev/null 2>&1" >> /tmp/shell-profile-check
+echo "$SHELL" >> /tmp/shell-profile-check
 chmod +x /tmp/shell-profile-check
 (sleep 1; pkill -15 -f 'sh /tmp/shell-profile-check')&
 sh /tmp/shell-profile-check > /dev/null 2>&1 && sleep 1
