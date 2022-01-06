@@ -28,9 +28,37 @@
 
 set -e
 
-dotfiles=".profile .bashrc"
+dotfiles=".profile .bashrc .zshrc"
+rcfile="$HOME/.$(basename $SHELL)rc"
 
+echo "Looking for dot files."
 echo "$dotfiles" | tr ' ' '\n' | while read file; do
   [ -f "$file" ] || continue
-  echo $file
+  [ -n "$(tail -c1 "$file")" ] && echo >> "$file"
+  file=$(readlink -f "$file")
+  load_check="$file.profile-check"
+  echo rm -f \"$load_check\" >> "$file"
+  touch "$load_check"
 done
+
+echo -n "Launch shell under control: "
+rm -f ./.shell.profile-check
+ln -s $SHELL ./.shell.profile-check
+(sleep 1 && pkill -15 -f "./.shell.profile-check")&
+./.shell.profile-check > /dev/null && true
+echo "Shell under control was stopped."
+
+echo "Run files analysis:"
+echo "$dotfiles" | tr ' ' '\n' | while read file; do
+  [ -f "$file" ] || continue
+  [ -n "$(tail -c1 "$file")" ] && echo >> "$file"
+  file=$(readlink -f "$file")
+  load_check="$file.profile-check"
+  sed -i '/^rm .*profile-check"$/d' "$file"
+  if [ -f "$load_check" ]; then
+    echo "[WARN] The file '$file' is present but your shell do not load it by default."
+  else
+    echo "[INFO] The file '$file' is load by default from your shell."
+  fi
+done
+[ -f "$rcfile" ] || echo "[WARN] The file '$rcfile' is missing, consider to create it."
