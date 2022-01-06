@@ -81,3 +81,6 @@ echo "$dotfiles" | tr ' ' '\n' | while read file; do
     echo "[INFO] The file '$file' is correctly loaded by your shell."
   fi
 done
+
+reset 2> /dev/null && true
+exit 0
