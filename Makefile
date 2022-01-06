@@ -9,3 +9,9 @@ test-local:
 
 test-remote:
 	@cd $$HOME && bash -c "sh <(cat $(CWD)/profile-check)"
+
+test-bash-local:
+	@cd $$HOME && SHELL=/bin/bash $(CWD)/profile-check
+
+test-bash-remote:
+	@cd $$HOME && bash -c "SHELL=/bin/bash sh <(cat $(CWD)/profile-check)"
