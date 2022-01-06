@@ -44,12 +44,13 @@ done
 
 echo "Default shell: $SHELL"
 echo "Launch shell under control to capture data..."
-echo "----[ Type 'exit' and press [enter] to continue ]--------"
+echo ""
+echo "--------| Type 'exit' and press [enter] to continue |--------"
 echo "$SHELL" > /tmp/shell-profile-check
 ##(sleep 1; pkill -9 -f '/tmp/shell-profile-check')&
 $SHELL /tmp/shell-profile-check && sleep 1
 rm -f /tmp/shell-profile-check
-echo "---------------------------------------------------------"
+echo "-------------------------------------------------------------"
 echo "Shell under control was stopped."
 
 echo ""
