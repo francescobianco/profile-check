@@ -50,7 +50,7 @@ echo "#!/bin/sh" > /tmp/shell-profile-check
 echo "$SHELL" >> /tmp/shell-profile-check
 chmod +x /tmp/shell-profile-check
 (sleep 1; pkill -15 -f 'sh /tmp/shell-profile-check')&
-sh /tmp/shell-profile-check > /dev/null 2>&1 && sleep 1
+sh /tmp/shell-profile-check && sleep 1
 rm -f /tmp/shell-profile-check
 echo "----------------------------------------------------"
 echo "Shell under control was stopped."
