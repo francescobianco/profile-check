@@ -43,14 +43,14 @@ echo "$dotfiles" | tr ' ' '\n' | while read file; do
 done
 
 echo "Default shell: $SHELL"
-echo "Launch shell under control to capture data..."
+echo "Launch a shell under control to capture data..."
 echo "====| Type 'exit' and press [enter] to continue |===="
 (sleep 1; pkill -9 -f '/tmp/shell-profile-check')&
 echo "$SHELL" > /tmp/shell-profile-check
 $SHELL /tmp/shell-profile-check 2> /dev/null && sleep 1
 rm -f /tmp/shell-profile-check
 echo "====================================================="
-echo "Shell under control was stopped."
+echo "The shell under control was stopped."
 
 echo ""
 echo "Run files analysis:"
