@@ -32,7 +32,6 @@ profile="$HOME/.profile"
 dotfiles=".profile .bashrc .zshrc"
 rcfile="$HOME/.$(basename $SHELL)rc"
 
-echo "Default shell: $SHELL"
 echo "Looking for dot files."
 echo "$dotfiles" | tr ' ' '\n' | while read file; do
   [ -f "$file" ] || continue
@@ -43,6 +42,7 @@ echo "$dotfiles" | tr ' ' '\n' | while read file; do
   touch "$load_check"
 done
 
+echo "Default shell: $SHELL"
 echo -n "Launch shell under control: "
 rm -f /tmp/shell-profile-check
 ln -s $SHELL /tmp/shell-profile-check
