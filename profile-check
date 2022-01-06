@@ -47,11 +47,10 @@ echo "Launch shell under control to capture data..."
 echo "----------------------------------------------------"
 rm -f /tmp/shell-profile-check
 echo "#!/bin/sh" > /tmp/shell-profile-check
-echo "$SHELL 2>/dev/null" >> /tmp/shell-profile-check
+echo "$SHELL > /dev/null 2>&1" >> /tmp/shell-profile-check
 chmod +x /tmp/shell-profile-check
 (sleep 1; pkill -15 -f 'sh /tmp/shell-profile-check')&
-sh /tmp/shell-profile-check && true
-sleep 1
+sh /tmp/shell-profile-check > /dev/null 2>&1 && sleep 1
 rm -f /tmp/shell-profile-check
 echo "----------------------------------------------------"
 echo "Shell under control was stopped."
@@ -75,7 +74,9 @@ echo "$dotfiles" | tr ' ' '\n' | while read file; do
   [ -n "$(tail -c1 "$file")" ] && echo >> "$file"
   file="$PWD/$file"
   load_check="$file.profile-check"
-  sed -i '' '/^rm .*profile-check"$/d' "$file"
+  mv "$file" "$file.profile-check.bak"
+  sed '/^rm .*profile-check"$/d' "$file.profile-check.bak" > "$file"
+  rm "$file.profile-check.bak"
   if [ -f "$load_check" ]; then
     echo "[WARN] The file '$file' is NOT loaded by default."
     echo "       Consider to add 'source $file' at end of '$rcfile' file."
