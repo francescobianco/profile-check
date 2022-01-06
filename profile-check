@@ -3,7 +3,7 @@
 ##
 # profile-check
 #
-# Manage your profile with GIT.
+# Check-up your profile's dotfiles.
 #
 # Copyright (c) 2020 Francesco Bianco <bianco@javanile.org>
 #
@@ -28,6 +28,7 @@
 
 set -e
 
+profile="$HOME/.profile"
 dotfiles=".profile .bashrc .zshrc"
 rcfile="$HOME/.$(basename $SHELL)rc"
 
@@ -56,9 +57,10 @@ echo "$dotfiles" | tr ' ' '\n' | while read file; do
   load_check="$file.profile-check"
   sed -i '/^rm .*profile-check"$/d' "$file"
   if [ -f "$load_check" ]; then
-    echo "[WARN] The file '$file' is present but your shell do not load it by default."
+    echo "[WARN] The file '$file' is NOT loaded by default. Consider to add 'source $file' at end of '$rcfile' file."
   else
-    echo "[INFO] The file '$file' is load by default from your shell."
+    echo "[INFO] The file '$file' is correctly loaded by default by your shell."
   fi
 done
-[ -f "$rcfile" ] || echo "[WARN] The file '$rcfile' is missing, consider to create it."
+[ -f "$rcfile" ] || echo "[WARN] The file '$rcfile' is missing. Consider to create it as default shell profile file."
+[ -f "$profile" ] || echo "[WARN] The file '$profile' is missing. Consider to create it as agnostic shell profile file."
