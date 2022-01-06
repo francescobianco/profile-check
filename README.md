@@ -8,10 +8,10 @@ Check-up profile's dotfiles
 
 ## Usage 🖱
 
-Copy and paste the following line into your shell to check-up your profile files.
+Copy and paste the following line into your shell to try check-up of your profile files.
 
 ```shell
-curl -sL git.io/profile-check | bash
+sh <(curl -sL git.io/profile-check)
 ```
 
 ## Shorturl 🤓
