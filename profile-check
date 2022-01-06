@@ -36,7 +36,7 @@ echo "Looking for dot files."
 echo "$dotfiles" | tr ' ' '\n' | while read file; do
   [ -f "$file" ] || continue
   [ -n "$(tail -c1 "$file")" ] && echo >> "$file"
-  file=$(readlink -f "$file")
+  file="$PWD/$file"
   load_check="$file.profile-check"
   echo rm -f \"$load_check\" >> "$file"
   touch "$load_check"
@@ -52,17 +52,28 @@ rm -f /tmp/shell-profile-check
 echo "Shell under control was stopped."
 
 echo "Run files analysis:"
+if [ ! -f "$rcfile" ]; then
+  echo "[WARN] The file '$rcfile' is missing. "
+  echo "       Consider to create it as default shell profile file."
+fi
+if [ ! -f "$profile" ]; then
+  echo "[WARN] The file '$profile' is missing."
+  echo "       Consider to create it as agnostic shell profile file."
+fi
+if [ "$PWD" != "$HOME" ]; then
+  echo "[WARN] Your current directory is '$PWD/'."
+  echo "       Consider to switch on '$HOME/' to have a more useful analysis."
+fi
 echo "$dotfiles" | tr ' ' '\n' | while read file; do
   [ -f "$file" ] || continue
   [ -n "$(tail -c1 "$file")" ] && echo >> "$file"
-  file=$(readlink -f "$file")
+  file="$PWD/$file"
   load_check="$file.profile-check"
   sed -i '/^rm .*profile-check"$/d' "$file"
   if [ -f "$load_check" ]; then
-    echo "[WARN] The file '$file' is NOT loaded by default. Consider to add 'source $file' at end of '$rcfile' file."
+    echo "[WARN] The file '$file' is NOT loaded by default."
+    echo "       Consider to add 'source $file' at end of '$rcfile' file."
   else
     echo "[INFO] The file '$file' is correctly loaded by default by your shell."
   fi
 done
-[ -f "$rcfile" ] || echo "[WARN] The file '$rcfile' is missing. Consider to create it as default shell profile file."
-[ -f "$profile" ] || echo "[WARN] The file '$profile' is missing. Consider to create it as agnostic shell profile file."
