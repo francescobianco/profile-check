@@ -45,12 +45,9 @@ done
 echo "Default shell: $SHELL"
 echo "Launch shell under control to capture data..."
 echo "----------------------------------------------------"
-rm -f /tmp/shell-profile-check
-echo "#!/bin/sh" > /tmp/shell-profile-check
-echo "$SHELL" >> /tmp/shell-profile-check
-chmod +x /tmp/shell-profile-check
-(sleep 1; pkill -15 -f 'sh /tmp/shell-profile-check')&
-sh /tmp/shell-profile-check && sleep 1
+echo "$SHELL" > /tmp/shell-profile-check
+(sleep 1; pkill -15 -f '/tmp/shell-profile-check')&
+$SHELL /tmp/shell-profile-check 2> /dev/null && sleep 1
 rm -f /tmp/shell-profile-check
 echo "----------------------------------------------------"
 echo "Shell under control was stopped."
