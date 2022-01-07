@@ -49,7 +49,7 @@ echo "====| Type 'exit' and press [enter] to continue |===="
 mkdir -p /tmp/$(dirname $SHELL) && rm -f /tmp$SHELL
 ln -s $SHELL /tmp$SHELL && /tmp$SHELL && rm -f /tmp$SHELL
 echo "====================================================="
-echo "The shell under control was stopped."
+echo "The shell under control was terminated."
 
 echo ""
 echo "Run files analysis:"
