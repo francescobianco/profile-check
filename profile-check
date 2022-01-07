@@ -45,7 +45,7 @@ done
 echo "Default shell: $SHELL"
 echo "Launch a shell under control to capture data..."
 echo "====| Type 'exit' and press [enter] to continue |===="
-(sleep 1; pkill -9 -f /tmp$SHELL)&
+(sleep 1; pkill -15 -f /tmp$SHELL; pkill -9 -f /tmp$SHELL)&
 mkdir -p /tmp/$(dirname $SHELL) && rm -f /tmp$SHELL
 ln -s $SHELL /tmp$SHELL && /tmp$SHELL && rm -f /tmp$SHELL
 echo "====================================================="
@@ -75,7 +75,7 @@ echo "$dotfiles" | tr ' ' '\n' | while read file; do
   rm "$file.profile-check.bak"
   if [ -f "$load_check" ]; then
     echo "[WARN] The file '$file' is NOT loaded by default."
-    echo "       Consider to add 'source $file' at end of '$rcfile' file."
+    echo "       Consider to add 'source $file' at the end of '$rcfile' file."
   else
     echo "[INFO] The file '$file' is correctly loaded by your shell."
   fi
